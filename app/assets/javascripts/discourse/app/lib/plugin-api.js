@@ -1294,3 +1294,20 @@ function decorate(klass, evt, cb, id) {
 export function resetPluginApi() {
   _pluginv01 = null;
 }
+
+/**
+ * apiInitializer(version, apiCodeCallback, opts)
+ *
+ * An API to simplify the creation of initializers for plugins/themes by removing
+ * some of the boilerplate.
+ */
+let _apiInitializerId = 0;
+export function apiInitializer(version, cb, opts) {
+  return {
+    name: `plugin-initializer${_apiInitializerId++}`,
+    after: "inject-objects",
+    initialize() {
+      return withPluginApi(version, cb, opts);
+    },
+  };
+}
